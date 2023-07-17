@@ -5,7 +5,8 @@ import Image from 'next/image'
 
 import { CarProps } from '@/types'
 import CustomButton from './CustomButton'
-import { calculateCarRent } from '@/utils'
+import { calculateCarRent, generateCarImageUrl } from '@/utils'
+import CarDetails from './CarDetails'
 
 interface CarCardProps {
   car:CarProps;
@@ -39,7 +40,7 @@ const CarCard = ({ car }: CarCardProps) => {
       </p>
 
       <div className='relative w-full h-40 my-3 object-contain'>
-        <Image src="/hero.png" alt='Modelo do Carro' fill priority className='object-contain' />
+        <Image src={generateCarImageUrl(car)} alt='Modelo do Carro' fill priority className='object-contain' />
       </div>
 
       <div className='relative flex w-full mt-2'>
@@ -76,6 +77,7 @@ const CarCard = ({ car }: CarCardProps) => {
         </div>
       </div>
 
+      <CarDetails isOpen={isOpen} closeModal={() => setIsOpen(false)} car={car} />
     </div>
   )
 }
