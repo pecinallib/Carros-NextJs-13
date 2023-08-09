@@ -1,9 +1,11 @@
 "use client"
 
-import { Hero, SearchBar, CustomFilter, CarCard, ShowMore } from '@/components'
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
 import { fetchCars } from '@/utils'
 import { fuels, yearsOfProduction } from '@/constants';
-import { useEffect, useState } from 'react';
+import { Hero, SearchBar, CustomFilter, CarCard, ShowMore } from '@/components'
 
 export default function Home() {
   const [ allCars, setAllCars ] = useState([])
@@ -70,7 +72,7 @@ export default function Home() {
           </div>
         </div>
 
-        {!isDataEmpty ? (
+        {allCars.length > 0 ? (
           <section>
             <div className='home__cars-wrapper'>
               {allCars?.map((car) => (
@@ -78,9 +80,22 @@ export default function Home() {
               ))}
             </div>
 
+            {loading && (
+              <div className='mt-16 w-full flex-center'>
+                <Image 
+                  src='/loader.svg'
+                  alt="carregar"
+                  width={50}
+                  height={50}
+                  className="object-contain"
+                />
+              </div>
+            )}
+
             <ShowMore 
-              pageNumber={(limit || 10) / 10}
-              isNext={(limit || 10) > allCars.length}
+              pageNumber={limit / 10}
+              isNext={limit > allCars.length}
+              setLimit={setLimit}
             />
           </section>
         ): (
